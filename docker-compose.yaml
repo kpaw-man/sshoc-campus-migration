@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sshoc_dariah_pipeline
+    env_file: .env
+    environment:
+      - BEARER_TOKEN=${BEARER_TOKEN}
+      - DATA_DIR=/data
+      - MAX_ITEMS=${MAX_ITEMS:-0}  # as base for first run its set as "1" - for validation purpose, should be change to dedicated amount or None(all)
+      - SSHOC_BASE_URL=${SSHOC_BASE_URL:-https://sshoc-marketplace-api.acdh-dev.oeaw.ac.at} # dev defaults
+      - SOURCE_ID=${SOURCE_ID:-253} # dev defaults
+      - SOURCE_LABEL=${SOURCE_LABEL:-DARIAH-CAMPUS} # dev defaults
+      - SOURCE_URL=${SOURCE_URL:-https://campus.dariah.eu/} # dev defaults
+      - SOURCE_URL_TEMPLATE=${SOURCE_URL_TEMPLATE:-https://hdl.handle.net/21.11159/{source-item-id}} # dev defaults
+    volumes:
+      - ./data:/data
+    restart: "no"
+
